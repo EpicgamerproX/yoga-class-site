@@ -350,24 +350,27 @@ export function YujHome() {
             initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={loaded ? { opacity: 1, scale: 1, y: 0 } : {}}
             transition={{ duration: 1.4, ease: smoothEase }}
-            className="relative mx-auto aspect-[4/5] w-full max-w-[440px]"
+            className="flex flex-col items-center justify-center relative mx-auto w-full max-w-[420px]"
           >
-            <div className="absolute inset-0 rounded-[44%_44%_10%_10%] bg-gradient-to-b from-yuj-peach via-yuj-lavender to-yuj-purple shadow-glow" />
-            <Image
-              priority
-              src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=900&q=85"
-              alt="Meditation silhouette at sunrise representing YUJ yoga practice"
-              fill
-              sizes="(max-width: 768px) 90vw, 440px"
-              className="rounded-[44%_44%_10%_10%] object-cover mix-blend-luminosity opacity-80 transition-transform duration-1000 hover:scale-105"
-            />
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[12rem] rounded-b-[3rem] shadow-glow border-4 border-white/70 bg-gradient-to-b from-yuj-peach via-yuj-lavender to-yuj-purple">
+              <Image
+                priority
+                src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=900&q=85"
+                alt="Meditation silhouette at sunrise representing YUJ yoga practice"
+                fill
+                sizes="(max-width: 768px) 90vw, 420px"
+                className="object-cover mix-blend-luminosity opacity-85 transition-transform duration-1000 hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-yuj-purple/40 via-transparent to-transparent pointer-events-none" />
+            </div>
+
             <motion.div
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.03, y: -2 }}
               transition={{ duration: 0.4, ease: smoothEase }}
-              className="absolute -bottom-6 left-1/2 w-[84%] -translate-x-1/2 rounded-full bg-white/80 px-5 py-4 text-center shadow-glow backdrop-blur-md border border-white/60"
+              className="-mt-8 z-20 w-[86%] max-w-[340px] rounded-3xl bg-white/90 px-6 py-4 text-center shadow-2xl backdrop-blur-xl border border-white/80"
             >
-              <p className="font-heading text-3xl font-bold text-yuj-purple">YUJ</p>
-              <p className="text-xs font-bold uppercase tracking-[0.32em] text-yuj-plum">School of Yoga</p>
+              <p className="font-heading text-3xl font-bold text-yuj-purple leading-tight">YUJ</p>
+              <p className="text-xs font-bold uppercase tracking-[0.32em] text-yuj-plum mt-0.5">School of Yoga</p>
             </motion.div>
           </motion.div>
         </div>

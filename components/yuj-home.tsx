@@ -440,13 +440,13 @@ export function YujHome() {
               key={title}
               whileHover={{ y: -6, scale: 1.02 }}
               transition={{ duration: 0.4, ease: smoothEase }}
-              className="group rounded-[28px] bg-white/72 p-6 shadow-glow border border-white/60 transition-all duration-500"
+              className="group rounded-[28px] bg-white/72 p-6 shadow-glow border border-white/60 transition-all duration-500 hover:bg-yuj-purple hover:border-yuj-purple hover:shadow-2xl cursor-pointer"
             >
-              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-yuj-lilac text-yuj-purple transition-all duration-500 group-hover:bg-yuj-purple group-hover:text-white group-hover:scale-110">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-yuj-lilac text-yuj-purple transition-all duration-500 group-hover:bg-white/20 group-hover:text-yuj-gold group-hover:scale-110">
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="font-heading text-2xl font-bold text-yuj-purple">{title}</h3>
-              <p className="mt-3 leading-7 text-yuj-ink/70">{text}</p>
+              <h3 className="font-heading text-2xl font-bold text-yuj-purple transition-colors duration-500 group-hover:text-white">{title}</h3>
+              <p className="mt-3 leading-7 text-yuj-ink/70 transition-colors duration-500 group-hover:text-white/90">{text}</p>
             </motion.article>
           ))}
         </div>
@@ -875,6 +875,21 @@ export function YujHome() {
             <Instagram className="h-5 w-5" />
           </a>
         </div>
+
+        <div className="section-shell mt-10 border-t border-white/10 pt-6 flex flex-col items-center justify-between gap-4 text-xs text-white/60 sm:flex-row">
+          <p>© {new Date().getFullYear()} YUJ - School of Yoga. All rights reserved.</p>
+          <p>
+            Designed & Developed by{" "}
+            <a
+              href="https://truculence.in"
+              target="_blank"
+              rel="noreferrer"
+              className="font-bold text-yuj-gold underline underline-offset-4 decoration-yuj-gold/40 hover:text-white transition-colors"
+            >
+              truculence.in
+            </a>
+          </p>
+        </div>
       </footer>
 
       {/* MOBILE & DESKTOP FLOATING CTAS */}
@@ -937,11 +952,33 @@ function Navbar({
   activeSection: string;
   onNavClick: (id: string) => void;
 }) {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="fixed left-0 right-0 top-0 z-40 px-4 py-4">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between rounded-full bg-white/60 px-6 py-3.5 shadow-glow backdrop-blur-2xl border border-white/50">
-        <button onClick={() => onNavClick("home")} className="font-heading text-3xl font-bold text-yuj-purple">
-          YUJ
+    <header className="fixed left-0 right-0 top-0 z-40 px-4 py-4 transition-all duration-500">
+      <nav
+        className={`mx-auto flex max-w-7xl items-center justify-between rounded-full px-6 py-3.5 transition-all duration-500 border ${
+          scrolled
+            ? "bg-white/85 shadow-2xl backdrop-blur-2xl border-white/70 py-3"
+            : "bg-white/60 shadow-glow backdrop-blur-2xl border-white/50"
+        }`}
+      >
+        <button onClick={() => onNavClick("home")} className="flex items-center gap-2.5 group text-left">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-yuj-purple text-yuj-gold shadow-sm transition-transform duration-500 group-hover:rotate-45">
+            <Flower2 className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="font-heading text-2xl font-bold leading-none text-yuj-purple block">YUJ</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-yuj-plum block -mt-0.5">School of Yoga</span>
+          </div>
         </button>
 
         <div className="hidden items-center gap-1 text-sm font-bold text-yuj-ink/75 lg:flex">
@@ -952,13 +989,13 @@ function Navbar({
                 key={id}
                 onClick={() => onNavClick(id)}
                 className={`relative px-4 py-2 rounded-full transition-colors duration-400 ${
-                  isActive ? "text-yuj-purple font-bold" : "hover:text-yuj-purple"
+                  isActive ? "text-yuj-purple font-bold" : "hover:text-yuj-purple text-yuj-ink/80"
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="activeNavTab"
-                    className="absolute inset-0 rounded-full bg-yuj-lilac/70 -z-10"
+                    className="absolute inset-0 rounded-full bg-yuj-lilac/80 -z-10 shadow-sm"
                     transition={{ duration: 0.5, ease: smoothEase }}
                   />
                 )}
@@ -969,12 +1006,12 @@ function Navbar({
         </div>
 
         <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => onNavClick("contact")}
-          className="hidden rounded-full bg-yuj-purple px-6 py-3 text-sm font-bold text-white shadow-gold lg:inline-flex"
+          className="hidden rounded-full bg-yuj-purple px-6 py-3 text-sm font-bold text-white shadow-gold lg:inline-flex items-center gap-2"
         >
-          Book Class
+          Book Class <ArrowRight className="h-4 w-4" />
         </motion.button>
 
         <button
@@ -1006,6 +1043,12 @@ function Navbar({
                 {label}
               </button>
             ))}
+            <button
+              onClick={() => onNavClick("contact")}
+              className="mt-2 w-full rounded-2xl bg-yuj-purple py-3.5 font-bold text-white shadow-gold text-center flex items-center justify-center gap-2"
+            >
+              Book Class <ArrowRight className="h-4 w-4" />
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

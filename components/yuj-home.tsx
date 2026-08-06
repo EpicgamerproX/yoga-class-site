@@ -448,10 +448,16 @@ export function YujHome() {
               </div>
 
               <div>
-                <div className="mt-6 grid grid-cols-3 gap-2 text-xs font-bold text-yuj-plum border-t border-yuj-purple/10 pt-4">
-                  <span className="bg-yuj-lilac/60 px-2 py-1 rounded-full text-center">{program.level}</span>
-                  <span className="bg-yuj-lilac/60 px-2 py-1 rounded-full text-center">{program.duration}</span>
-                  <span className="bg-yuj-lilac/60 px-2 py-1 rounded-full text-center">{program.fit}</span>
+                <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-yuj-purple/10 pt-4 text-xs font-bold text-yuj-plum">
+                  <span className="flex-1 min-w-[72px] inline-flex items-center justify-center rounded-full bg-yuj-lilac/70 px-3 py-1.5 text-center leading-tight">
+                    {program.level}
+                  </span>
+                  <span className="flex-1 min-w-[60px] inline-flex items-center justify-center rounded-full bg-yuj-lilac/70 px-3 py-1.5 text-center leading-tight">
+                    {program.duration}
+                  </span>
+                  <span className="flex-1 min-w-[90px] inline-flex items-center justify-center rounded-full bg-yuj-lilac/70 px-3 py-1.5 text-center leading-tight">
+                    {program.fit}
+                  </span>
                 </div>
                 <div className="mt-6 flex items-center justify-between font-bold text-yuj-purple group-hover:text-yuj-plum transition-colors">
                   <span>Select & Book</span>

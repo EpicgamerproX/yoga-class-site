@@ -77,10 +77,9 @@ a {
 
 .aurora {
   background:
-    radial-gradient(circle at var(--mx, 50%) var(--my, 28%), rgba(255, 225, 207, 0.72), transparent 26rem),
+    radial-gradient(circle at 50% 28%, rgba(255, 225, 207, 0.72), transparent 26rem),
     radial-gradient(circle at 86% 10%, rgba(217, 200, 255, 0.68), transparent 24rem),
     linear-gradient(135deg, #fff8ec 0%, #fbf8ff 45%, #f3edff 100%);
-  transition: background-position 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .petal {

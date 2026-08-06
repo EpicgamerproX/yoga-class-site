@@ -365,7 +365,7 @@ export function YujHome() {
             </div>
 
             <motion.div
-              whileHover={{ scale: 1.03, y: -2 }}
+              whileHover={{ y: -3 }}
               transition={{ duration: 0.4, ease: smoothEase }}
               className="-mt-8 z-20 w-[86%] max-w-[340px] rounded-3xl bg-white/90 px-6 py-4 text-center shadow-2xl backdrop-blur-xl border border-white/80"
             >
@@ -974,13 +974,13 @@ function Navbar({
             : "bg-white/60 shadow-glow backdrop-blur-2xl border-white/50"
         }`}
       >
-        <button onClick={() => onNavClick("home")} className="flex items-center gap-2.5 group text-left">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-yuj-purple text-yuj-gold shadow-sm transition-transform duration-500 group-hover:rotate-45">
-            <Flower2 className="h-5 w-5" />
+        <button onClick={() => onNavClick("home")} className="flex items-center gap-2.5 group text-left shrink-0">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-yuj-purple text-yuj-gold shadow-sm transition-transform duration-300 group-hover:scale-105">
+            <Flower2 className="h-5 w-5 shrink-0" />
           </div>
-          <div>
+          <div className="shrink-0 text-left">
             <span className="font-heading text-2xl font-bold leading-none text-yuj-purple block">YUJ</span>
-            <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-yuj-plum block -mt-0.5">School of Yoga</span>
+            <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-yuj-plum block -mt-0.5 whitespace-nowrap">School of Yoga</span>
           </div>
         </button>
 
@@ -1159,31 +1159,23 @@ function Select({ label, value, onChange, options }: { label: string; value: str
 }
 
 function CursorGlow() {
-  const springConfig = { stiffness: 120, damping: 24 };
-  const cursorX = useSpring(0, springConfig);
-  const cursorY = useSpring(0, springConfig);
+  const springConfig = { stiffness: 100, damping: 22 };
+  const cursorX = useSpring(-200, springConfig);
+  const cursorY = useSpring(-200, springConfig);
 
   useEffect(() => {
     const handleMove = (event: MouseEvent) => {
-      cursorX.set(event.clientX);
-      cursorY.set(event.clientY);
+      cursorX.set(event.clientX - 160);
+      cursorY.set(event.clientY - 160);
     };
-    window.addEventListener("pointermove", handleMove);
+    window.addEventListener("pointermove", handleMove, { passive: true });
     return () => window.removeEventListener("pointermove", handleMove);
   }, [cursorX, cursorY]);
 
-  useEffect(() => {
-    const unsubscribeX = cursorX.on("change", (v) => {
-      document.documentElement.style.setProperty("--mx", `${v}px`);
-    });
-    const unsubscribeY = cursorY.on("change", (v) => {
-      document.documentElement.style.setProperty("--my", `${v}px`);
-    });
-    return () => {
-      unsubscribeX();
-      unsubscribeY();
-    };
-  }, [cursorX, cursorY]);
-
-  return null;
+  return (
+    <motion.div
+      style={{ x: cursorX, y: cursorY }}
+      className="pointer-events-none fixed top-0 left-0 z-0 h-80 w-80 rounded-full bg-gradient-to-br from-yuj-peach/35 via-yuj-lavender/20 to-transparent blur-3xl opacity-70 will-change-transform"
+    />
+  );
 }

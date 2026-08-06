@@ -157,15 +157,19 @@ export function YujHome() {
   });
 
   const lenisRef = useRef<Lenis | null>(null);
+  const heroRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const isFooterInView = useInView(footerRef, { amount: 0.05 });
   const reducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
   
   const heroY = useTransform(scrollYProgress, [0, 0.28], [0, reducedMotion ? 0 : 80]);
   const mistY = useTransform(scrollYProgress, [0, 0.28], [0, reducedMotion ? 0 : -45]);
 
-  // Session loader check (only show full loader once per session)
+  // Session loader check (fast load for instant LCP)
   useEffect(() => {
     if (typeof window !== "undefined" && sessionStorage.getItem("yuj_loaded")) {
       setLoaded(true);
@@ -174,7 +178,7 @@ export function YujHome() {
     const timer = window.setTimeout(() => {
       setLoaded(true);
       sessionStorage.setItem("yuj_loaded", "true");
-    }, 1200);
+    }, 350);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -190,8 +194,10 @@ export function YujHome() {
     };
   }, [activeGalleryIndex, bookingConfirmed]);
 
+  // Lenis smooth scroll (skip on mobile touch devices to save CPU/battery)
   useEffect(() => {
     if (reducedMotion) return;
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) return;
     const lenis = new Lenis({
       duration: 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -216,8 +222,9 @@ export function YujHome() {
   const scrollToSection = useCallback((id: string) => {
     const element = document.getElementById(id);
     if (element) {
+      const offset = typeof window !== "undefined" && window.innerWidth < 768 ? -90 : -70;
       if (lenisRef.current) {
-        lenisRef.current.scrollTo(element, { offset: -70, duration: 1.4 });
+        lenisRef.current.scrollTo(element, { offset, duration: 1.4 });
       } else {
         element.scrollIntoView({ behavior: "smooth" });
       }
@@ -310,7 +317,7 @@ export function YujHome() {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden">
+    <main className="relative min-h-screen">
       <AnimatePresence>{!loaded && <Loader />}</AnimatePresence>
       <CursorGlow />
       
@@ -322,7 +329,7 @@ export function YujHome() {
       />
 
       {/* HERO SECTION */}
-      <section id="home" className="aurora relative flex min-h-screen items-center overflow-hidden pt-24">
+      <section id="home" ref={heroRef} className="aurora relative flex min-h-screen items-center overflow-hidden pt-24">
         <motion.div style={{ y: heroY }} className="absolute inset-0 pointer-events-none">
           <div className="absolute left-1/2 top-[16%] h-80 w-80 -translate-x-1/2 rounded-full bg-yuj-peach/60 blur-3xl breath" />
           <div className="absolute bottom-0 left-0 right-0 h-[42%] bg-gradient-to-t from-yuj-purple/20 to-transparent" />
@@ -385,7 +392,7 @@ export function YujHome() {
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[12rem] rounded-b-[3rem] shadow-glow border-4 border-white/70 bg-gradient-to-b from-yuj-peach via-yuj-lavender to-yuj-purple">
               <Image
                 priority
-                src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&w=900&q=85"
+                src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80"
                 alt="Meditation silhouette at sunrise representing YUJ yoga practice"
                 fill
                 sizes="(max-width: 768px) 90vw, 420px"
@@ -566,15 +573,15 @@ export function YujHome() {
               key={image.src}
               whileHover={{ y: -4, scale: 1.02 }}
               transition={{ duration: 0.5, ease: smoothEase }}
-              className="mb-5 block w-full overflow-hidden rounded-[28px] bg-white shadow-glow group cursor-pointer relative"
+              className="mb-5 block w-full aspect-[4/3] overflow-hidden rounded-[28px] bg-white shadow-glow group cursor-pointer relative"
               onClick={() => openGallery(index)}
             >
               <Image
                 src={image.src}
                 alt={image.alt}
-                width={900}
-                height={index % 2 ? 1100 : 760}
-                className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                fill
+                sizes="(max-width: 768px) 90vw, 400px"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-yuj-ink/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 text-white">
                 <p className="font-heading text-2xl font-bold">{image.title}</p>

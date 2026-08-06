@@ -124,6 +124,23 @@ a {
   }
 }
 
+@media (max-width: 768px) {
+  .glass {
+    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.88);
+  }
+  .petal,
+  .breath {
+    animation: none !important;
+  }
+  .blur-3xl {
+    filter: blur(24px) !important;
+  }
+  .blur-2xl {
+    filter: blur(16px) !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -134,4 +151,3 @@ a {
     transition-duration: 0.01ms !important;
   }
 }
-

@@ -255,7 +255,7 @@ export function YujHome() {
   }, [faqQuery]);
 
   const mapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(siteConfig.mapsQuery)}`;
-  const whatsappHref = `https://wa.me/${siteConfig.whatsapp}`;
+  const whatsappHref = `https://wa.me/${siteConfig.whatsapp}?text=${encodeURIComponent("Namaste YUJ, I would like to enquire about yoga classes.")}`;
 
   const handleBookingSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -730,9 +730,12 @@ export function YujHome() {
                 <MapPin className="mt-1 h-5 w-5 text-yuj-gold shrink-0" />
                 <span>{siteConfig.address.name}, {siteConfig.address.locality}, {siteConfig.address.city}, {siteConfig.address.region}</span>
               </p>
-              <p className="mt-5 flex items-center gap-3 text-yuj-ink">
+              <a
+                href={`tel:${siteConfig.phone.replace(/\s+/g, '')}`}
+                className="mt-5 flex items-center gap-3 text-yuj-ink hover:text-yuj-purple transition-colors font-semibold"
+              >
                 <Phone className="h-5 w-5 text-yuj-gold shrink-0" /> {siteConfig.phone}
-              </p>
+              </a>
               <p className="mt-5 flex items-center gap-3 text-yuj-ink">
                 <Clock className="h-5 w-5 text-yuj-gold shrink-0" /> Morning and evening batches
               </p>
@@ -906,15 +909,15 @@ export function YujHome() {
       </motion.button>
 
       <motion.a
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        whileHover={{ scale: 1.12 }}
+        whileTap={{ scale: 0.92 }}
         href={whatsappHref}
         target="_blank"
         rel="noreferrer"
-        aria-label="Open WhatsApp"
-        className="fixed bottom-8 right-8 z-40 hidden h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-glow md:flex"
+        aria-label="Chat on WhatsApp"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-colors duration-300 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50"
       >
-        <MessageCircle className="h-6 w-6" />
+        <MessageCircle className="h-7 w-7" />
       </motion.a>
     </main>
   );

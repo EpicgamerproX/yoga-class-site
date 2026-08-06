@@ -4,8 +4,8 @@ export const siteConfig = {
   url: "https://yuj-school-of-yoga.example.com",
   description:
     "Premium yoga classes in Kochi for mindful movement, breathwork, meditation, and holistic transformation.",
-  phone: "+919999999999",
-  whatsapp: "919999999999",
+  phone: "+91 6238991328",
+  whatsapp: "916238991328",
   email: "hello@yujyoga.example",
   address: {
     name: "Sree Rajarajeswary Temple, NSS Hall",

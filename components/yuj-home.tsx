@@ -157,6 +157,8 @@ export function YujHome() {
   });
 
   const lenisRef = useRef<Lenis | null>(null);
+  const footerRef = useRef<HTMLElement>(null);
+  const isFooterInView = useInView(footerRef, { amount: 0.05 });
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   
@@ -899,7 +901,7 @@ export function YujHome() {
         )}
       </AnimatePresence>
 
-      <footer className="bg-yuj-ink px-4 pb-28 pt-12 text-white md:pb-10">
+      <footer ref={footerRef} className="bg-yuj-ink px-4 pb-28 pt-12 text-white md:pb-10">
         <div className="section-shell flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-heading text-4xl font-bold">YUJ</p>
@@ -940,26 +942,42 @@ export function YujHome() {
       </footer>
 
       {/* MOBILE & DESKTOP FLOATING CTAS */}
-      <motion.button
-        onClick={() => scrollToSection("contact")}
-        whileHover={{ scale: 1.04 }}
-        whileTap={{ scale: 0.96 }}
-        className="fixed inset-x-4 bottom-4 z-40 flex items-center justify-center gap-2 rounded-full bg-yuj-purple px-5 py-4 font-bold text-white shadow-gold md:hidden border border-white/20"
-      >
-        Book Trial Class <ArrowRight className="h-5 w-5" />
-      </motion.button>
+      <AnimatePresence>
+        {!isFooterInView && (
+          <>
+            <motion.button
+              key="mobile-cta"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
+              onClick={() => scrollToSection("contact")}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="fixed inset-x-4 bottom-4 z-40 flex items-center justify-center gap-2 rounded-full bg-yuj-purple px-5 py-4 font-bold text-white shadow-gold md:hidden border border-white/20"
+            >
+              Book Trial Class <ArrowRight className="h-5 w-5" />
+            </motion.button>
 
-      <motion.a
-        whileHover={{ scale: 1.12 }}
-        whileTap={{ scale: 0.92 }}
-        href={whatsappHref}
-        target="_blank"
-        rel="noreferrer"
-        aria-label="Chat on WhatsApp"
-        className="fixed bottom-24 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-colors duration-300 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50 md:bottom-8 md:right-8"
-      >
-        <MessageCircle className="h-7 w-7" />
-      </motion.a>
+            <motion.a
+              key="whatsapp-cta"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.3, ease: smoothEase }}
+              whileHover={{ scale: 1.12 }}
+              whileTap={{ scale: 0.92 }}
+              href={whatsappHref}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Chat on WhatsApp"
+              className="fixed bottom-24 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-colors duration-300 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50 md:bottom-8 md:right-8"
+            >
+              <MessageCircle className="h-7 w-7" />
+            </motion.a>
+          </>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

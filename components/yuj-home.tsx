@@ -76,7 +76,9 @@ const gallery = [
   }
 ];
 
-const benefits = [
+type BenefitItem = readonly [string, string, React.ComponentType<{ className?: string }>];
+
+const benefits: BenefitItem[] = [
   ["Improve Flexibility", "Gentle mobility and alignment for spacious movement.", Leaf],
   ["Reduce Stress", "Breath-led practice to soften the nervous system.", Moon],
   ["Increase Strength", "Stable postures that build grounded confidence.", Zap],
@@ -85,7 +87,7 @@ const benefits = [
   ["Better Sleep", "Restorative practices for deeper recovery.", Heart],
   ["Improved Immunity", "Consistent movement and breath for resilience.", Flower2],
   ["Healthy Lifestyle", "A supportive path from practice to daily life.", Star]
-] as const;
+];
 
 const journey = [
   { name: "Morning Awakening", desc: "Gentle stretch & sunrise stillness" },
@@ -115,7 +117,7 @@ const testimonials = [
   }
 ];
 
-const stats = [
+const stats: [string, number][] = [
   ["Students trained", 1200],
   ["Years of experience", 10],
   ["Classes conducted", 4500],
@@ -137,15 +139,17 @@ export function YujHome() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState<number | null>(null);
   const [faqQuery, setFaqQuery] = useState("");
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [openFaq, setOpenFaq] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState("home");
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [activeJourneyIndex, setActiveJourneyIndex] = useState(0);
 
+  const defaultProgram = programs[0]?.title ?? "Group Lessons";
+
   const [form, setForm] = useState<BookingForm>({
     date: "",
     time: "",
-    program: programs[0].title,
+    program: defaultProgram,
     instructor: "First available",
     name: "",
     phone: "",
@@ -159,10 +163,30 @@ export function YujHome() {
   const heroY = useTransform(scrollYProgress, [0, 0.28], [0, reducedMotion ? 0 : 80]);
   const mistY = useTransform(scrollYProgress, [0, 0.28], [0, reducedMotion ? 0 : -45]);
 
+  // Session loader check (only show full loader once per session)
   useEffect(() => {
-    const timer = window.setTimeout(() => setLoaded(true), 1600);
+    if (typeof window !== "undefined" && sessionStorage.getItem("yuj_loaded")) {
+      setLoaded(true);
+      return;
+    }
+    const timer = window.setTimeout(() => {
+      setLoaded(true);
+      sessionStorage.setItem("yuj_loaded", "true");
+    }, 1200);
     return () => window.clearTimeout(timer);
   }, []);
+
+  // Modal body scroll locking
+  useEffect(() => {
+    if (activeGalleryIndex !== null || bookingConfirmed) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [activeGalleryIndex, bookingConfirmed]);
 
   useEffect(() => {
     if (reducedMotion) return;
@@ -199,7 +223,7 @@ export function YujHome() {
     setMenuOpen(false);
   }, []);
 
-  // Section Observer for Nav highlighting
+  // Section Observer with tuned threshold & margin
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -209,7 +233,7 @@ export function YujHome() {
           }
         });
       },
-      { threshold: 0.3 }
+      { threshold: 0.1, rootMargin: "-20% 0px -40% 0px" }
     );
 
     const sectionIds = navItems.map((item) => item[1]);
@@ -246,6 +270,10 @@ export function YujHome() {
   const selectProgramAndBook = (programTitle: string) => {
     setForm((prev) => ({ ...prev, program: programTitle }));
     scrollToSection("contact");
+    const nameInput = document.getElementById("booking-name-input");
+    if (nameInput) {
+      nameInput.focus();
+    }
   };
 
   const filteredFaqs = useMemo(() => {
@@ -265,11 +293,11 @@ export function YujHome() {
   const sendWhatsAppBooking = () => {
     const message = [
       "Namaste YUJ, I would like to book a trial class.",
-      `Name: ${form.name}`,
-      `Phone: ${form.phone}`,
+      `Name: ${form.name || "Guest"}`,
+      `Phone: ${form.phone || "Not provided"}`,
       `Program: ${form.program}`,
-      `Date: ${form.date}`,
-      `Time: ${form.time}`,
+      `Date: ${form.date || "Preferred date"}`,
+      `Time: ${form.time || "Preferred time"}`,
       `Instructor: ${form.instructor}`,
       form.note ? `Note: ${form.note}` : ""
     ]
@@ -389,7 +417,7 @@ export function YujHome() {
             </p>
             <div className="mt-8 grid grid-cols-2 gap-4">
               {stats.map(([label, value]) => (
-                <Counter key={label as string} label={label as string} value={value as number} />
+                <Counter key={label} label={label} value={value} />
               ))}
             </div>
           </div>
@@ -465,7 +493,7 @@ export function YujHome() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 transition={{ duration: 0.3, ease: smoothEase }}
-                className={`flex items-center gap-3 rounded-full px-5 py-3 text-sm font-bold transition-all duration-400 ${
+                className={`flex items-center gap-3 rounded-full px-5 py-3 text-sm font-bold transition-all duration-300 ${
                   activeJourneyIndex === index
                     ? "bg-yuj-gold text-yuj-ink shadow-gold"
                     : "bg-white/12 text-white/80 hover:bg-white/20"
@@ -528,7 +556,7 @@ export function YujHome() {
           {gallery.map((image, index) => (
             <motion.div
               key={image.src}
-              whileHover={{ y: -4, scale: 1.015 }}
+              whileHover={{ y: -4, scale: 1.02 }}
               transition={{ duration: 0.5, ease: smoothEase }}
               className="mb-5 block w-full overflow-hidden rounded-[28px] bg-white shadow-glow group cursor-pointer relative"
               onClick={() => openGallery(index)}
@@ -538,7 +566,7 @@ export function YujHome() {
                 alt={image.alt}
                 width={900}
                 height={index % 2 ? 1100 : 760}
-                className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-108"
+                className="h-auto w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-yuj-ink/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 text-white">
                 <p className="font-heading text-2xl font-bold">{image.title}</p>
@@ -684,39 +712,42 @@ export function YujHome() {
           </div>
 
           <div className="space-y-3">
-            {filteredFaqs.map((faq, index) => (
-              <article key={faq.question} className="rounded-[24px] bg-white/76 shadow-glow border border-white/60 overflow-hidden">
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-bold text-yuj-purple transition-colors hover:text-yuj-plum"
-                >
-                  <span className="text-lg">{faq.question}</span>
-                  <motion.div
-                    animate={{ rotate: openFaq === index ? 180 : 0 }}
-                    transition={{ duration: 0.4, ease: smoothEase }}
-                    className="shrink-0"
+            {filteredFaqs.map((faq) => {
+              const isOpen = openFaq === faq.question;
+              return (
+                <article key={faq.question} className="rounded-[24px] bg-white/76 shadow-glow border border-white/60 overflow-hidden">
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : faq.question)}
+                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left font-bold text-yuj-purple transition-colors hover:text-yuj-plum"
                   >
-                    <ChevronDown className="h-5 w-5 text-yuj-gold" />
-                  </motion.div>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {openFaq === index && (
+                    <span className="text-lg">{faq.question}</span>
                     <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.5, ease: smoothEase }}
-                      className="overflow-hidden"
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.4, ease: smoothEase }}
+                      className="shrink-0"
                     >
-                      <p className="px-6 pb-5 leading-7 text-yuj-ink/72 border-t border-yuj-purple/10 pt-3">
-                        {faq.answer}
-                      </p>
+                      <ChevronDown className="h-5 w-5 text-yuj-gold" />
                     </motion.div>
-                  )}
-                </AnimatePresence>
-              </article>
-            ))}
+                  </button>
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.5, ease: smoothEase }}
+                        className="overflow-hidden"
+                      >
+                        <p className="px-6 pb-5 leading-7 text-yuj-ink/72 border-t border-yuj-purple/10 pt-3">
+                          {faq.answer}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </article>
+              );
+            })}
           </div>
         </div>
       </Section>
@@ -770,14 +801,14 @@ export function YujHome() {
             <p className="mt-1 text-sm text-yuj-lavender">Reserve your space in our Kochi studio</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              <Field label="Name" required value={form.name} onChange={(value) => setForm({ ...form, name: value })} />
+              <Field id="booking-name-input" label="Name" required value={form.name} onChange={(value) => setForm({ ...form, name: value })} />
               <Field label="Phone" required value={form.phone} onChange={(value) => setForm({ ...form, phone: value })} />
               <Field label="Date" type="date" required value={form.date} onChange={(value) => setForm({ ...form, date: value })} />
               <Field label="Time" type="time" required value={form.time} onChange={(value) => setForm({ ...form, time: value })} />
               <Select label="Program" value={form.program} onChange={(value) => setForm({ ...form, program: value })} options={programs.map((p) => p.title)} />
               <Select label="Instructor" value={form.instructor} onChange={(value) => setForm({ ...form, instructor: value })} options={["First available", "Founder session", "Female instructor preferred"]} />
               
-              <label className="sm:col-span-2">
+              <label className="sm:col-span-2 block">
                 <span className="text-sm font-bold text-white/78">Note (Optional)</span>
                 <textarea
                   value={form.note}
@@ -790,9 +821,10 @@ export function YujHome() {
             </div>
 
             <motion.button
+              type="submit"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="gold-shimmer mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-yuj-gold px-6 py-4 font-bold text-yuj-ink shadow-gold"
+              className="gold-shimmer mt-6 inline-flex w-full items-center justify-center gap-3 rounded-full bg-yuj-gold px-6 py-4 font-bold text-yuj-ink shadow-gold cursor-pointer"
             >
               Review & Book <MessageCircle className="h-5 w-5" />
             </motion.button>
@@ -833,7 +865,8 @@ export function YujHome() {
               </p>
 
               <div className="mt-6 rounded-2xl bg-yuj-lilac/50 p-4 space-y-2 text-sm font-medium">
-                <p><span className="font-bold text-yuj-purple">Name:</span> {form.name || "Not provided"}</p>
+                <p><span className="font-bold text-yuj-purple">Name:</span> {form.name || "Guest"}</p>
+                <p><span className="font-bold text-yuj-purple">Phone:</span> {form.phone || "Not provided"}</p>
                 <p><span className="font-bold text-yuj-purple">Program:</span> {form.program}</p>
                 <p><span className="font-bold text-yuj-purple">Date & Time:</span> {form.date || "Preferred date"} at {form.time || "Preferred time"}</p>
                 <p><span className="font-bold text-yuj-purple">Instructor:</span> {form.instructor}</p>
@@ -875,6 +908,8 @@ export function YujHome() {
           </div>
           <a
             href={siteConfig.social.instagram}
+            target="_blank"
+            rel="noreferrer"
             aria-label="YUJ Instagram"
             className="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white/10 transition hover:bg-white/20"
           >
@@ -964,7 +999,7 @@ function Navbar({
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -994,7 +1029,7 @@ function Navbar({
               <button
                 key={id}
                 onClick={() => onNavClick(id)}
-                className={`relative px-4 py-2 rounded-full transition-colors duration-400 ${
+                className={`relative px-4 py-2 rounded-full transition-colors duration-300 ${
                   isActive ? "text-yuj-purple font-bold" : "hover:text-yuj-purple text-yuj-ink/80"
                 }`}
               >
@@ -1096,7 +1131,7 @@ function ImageCard({ src, alt, tall = false }: { src: string; alt: string; tall?
         alt={alt}
         fill
         sizes="(max-width: 768px) 90vw, 420px"
-        className="object-cover transition-transform duration-700 hover:scale-108"
+        className="object-cover transition-transform duration-700 hover:scale-105"
       />
     </motion.div>
   );
@@ -1127,11 +1162,12 @@ function Counter({ label, value }: { label: string; value: number }) {
   );
 }
 
-function Field({ label, value, onChange, type = "text", required = false }: { label: string; value: string; onChange: (value: string) => void; type?: string; required?: boolean }) {
+function Field({ id, label, value, onChange, type = "text", required = false }: { id?: string; label: string; value: string; onChange: (value: string) => void; type?: string; required?: boolean }) {
   return (
     <label className="block">
       <span className="text-sm font-bold text-white/80">{label}</span>
       <input
+        id={id}
         required={required}
         type={type}
         value={value}
@@ -1162,18 +1198,28 @@ function Select({ label, value, onChange, options }: { label: string; value: str
 }
 
 function CursorGlow() {
+  const [finePointer, setFinePointer] = useState(false);
   const springConfig = { stiffness: 100, damping: 22 };
   const cursorX = useSpring(-200, springConfig);
   const cursorY = useSpring(-200, springConfig);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: fine)").matches) {
+      setFinePointer(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!finePointer) return;
     const handleMove = (event: MouseEvent) => {
       cursorX.set(event.clientX - 160);
       cursorY.set(event.clientY - 160);
     };
     window.addEventListener("pointermove", handleMove, { passive: true });
     return () => window.removeEventListener("pointermove", handleMove);
-  }, [cursorX, cursorY]);
+  }, [finePointer, cursorX, cursorY]);
+
+  if (!finePointer) return null;
 
   return (
     <motion.div

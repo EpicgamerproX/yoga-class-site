@@ -1,6 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+
+const headingFont = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-heading"
+});
+
+const bodyFont = Manrope({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-body"
+});
 
 export const viewport: Viewport = {
   themeColor: "#3b1368",
@@ -52,8 +65,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-IN" className="scroll-smooth">
-      <body>{children}</body>
+    <html
+      lang="en-IN"
+      className={`${headingFont.variable} ${bodyFont.variable} scroll-smooth`}
+      data-scroll-behavior="smooth"
+    >
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

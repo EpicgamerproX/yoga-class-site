@@ -11,7 +11,7 @@ export default function Home() {
     telephone: siteConfig.phone,
     address: {
       "@type": "PostalAddress",
-      streetAddress: siteConfig.address.name,
+      streetAddress: "NSS Hall, Near Sree Rajarajeswary Temple",
       addressLocality: siteConfig.address.locality,
       addressRegion: siteConfig.address.region,
       addressCountry: siteConfig.address.country
@@ -48,16 +48,21 @@ export default function Home() {
     ]
   };
 
+  const sanitizeJson = (data: unknown) => JSON.stringify(data).replace(/</g, "\\u003c");
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeJson(localBusinessSchema) }}
       />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: sanitizeJson(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: sanitizeJson(breadcrumbSchema) }}
       />
       <YujHome />
     </>

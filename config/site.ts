@@ -1,12 +1,12 @@
 export const siteConfig = {
   name: "YUJ - School of Yoga",
   shortName: "YUJ",
-  url: "https://yuj-school-of-yoga.example.com",
+  url: "https://yujyoga.in",
   description:
     "Premium yoga classes in Kochi for mindful movement, breathwork, meditation, and holistic transformation.",
   phone: "+91 6238991328",
   whatsapp: "916238991328",
-  email: "hello@yujyoga.example",
+  email: "contact@yujyoga.in",
   address: {
     name: "Sree Rajarajeswary Temple, NSS Hall",
     locality: "Palarivattom",
@@ -16,8 +16,8 @@ export const siteConfig = {
   },
   mapsQuery: "Sree Rajarajeswary Temple NSS Hall Palarivattom Kochi Kerala",
   social: {
-    instagram: "https://instagram.com/",
-    facebook: "https://facebook.com/"
+    instagram: "https://instagram.com/yuj_school_of_yoga",
+    facebook: "https://facebook.com/yujschoolofyoga"
   },
   analytics: {
     googleAnalyticsId: "",

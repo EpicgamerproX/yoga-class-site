@@ -17,22 +17,32 @@ const bodyFont = Manrope({
 
 export const viewport: Viewport = {
   themeColor: "#3b1368",
-  colorScheme: "light"
+  colorScheme: "light",
+  width: "device-width",
+  initialScale: 1
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: siteConfig.name,
+    default: siteConfig.title,
     template: `%s | ${siteConfig.name}`
   },
   description: siteConfig.description,
   keywords: siteConfig.keywords,
+  authors: [{ name: "YUJ School of Yoga", url: siteConfig.url }],
+  creator: "YUJ School of Yoga",
+  publisher: "YUJ School of Yoga",
+  formatDetection: {
+    telephone: true,
+    email: true,
+    address: true
+  },
   alternates: {
-    canonical: "/"
+    canonical: siteConfig.url
   },
   openGraph: {
-    title: siteConfig.name,
+    title: siteConfig.title,
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
@@ -43,19 +53,36 @@ export const metadata: Metadata = {
         url: "/og.svg",
         width: 1200,
         height: 630,
-        alt: "YUJ - School of Yoga in Kochi"
+        alt: "YUJ - School of Yoga in Palarivattom, Kochi"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: siteConfig.title,
     description: siteConfig.description,
     images: ["/og.svg"]
   },
   robots: {
     index: true,
-    follow: true
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1
+    }
+  },
+  icons: {
+    icon: "/icon.svg",
+    apple: "/icon.svg"
+  },
+  other: {
+    "geo.region": "IN-KL",
+    "geo.placename": "Kochi",
+    "geo.position": "9.9984;76.3013",
+    ICBM: "9.9984, 76.3013"
   }
 };
 

@@ -158,11 +158,16 @@ export function YujHome() {
 
   const lenisRef = useRef<Lenis | null>(null);
   const heroRef = useRef<HTMLElement>(null);
+  const instructorRef = useRef<HTMLElement>(null);
+  const journeyRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const isHeroInView = useInView(heroRef, { amount: 0.1 });
+  const isInstructorInView = useInView(instructorRef, { amount: 0.15 });
+  const isJourneyInView = useInView(journeyRef, { amount: 0.15 });
   const isContactInView = useInView(contactRef, { amount: 0.05 });
   const isFooterInView = useInView(footerRef, { amount: 0.05 });
+  const isOverDarkPurple = isInstructorInView || isJourneyInView;
   const isMobileCtaVisible = !isHeroInView && !isContactInView && !isFooterInView;
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -506,7 +511,7 @@ export function YujHome() {
         </div>
 
         {/* Interactive Journey Timeline */}
-        <div className="mt-14 overflow-hidden rounded-[32px] bg-yuj-purple p-6 text-white shadow-glow sm:p-8">
+        <div ref={journeyRef} className="mt-14 overflow-hidden rounded-[32px] bg-yuj-purple p-6 text-white shadow-glow sm:p-8">
           <p className="mb-4 text-xs font-bold uppercase tracking-[0.24em] text-yuj-gold">Daily Practice Arc</p>
           <div className="flex flex-wrap gap-3">
             {journey.map((step, index) => (
@@ -540,7 +545,7 @@ export function YujHome() {
       </Section>
 
       {/* INSTRUCTOR / VS SECTION */}
-      <Section id="instructor" eyebrow="Personal Attention" title="YUJ brings depth beyond conventional fitness.">
+      <Section id="instructor" sectionRef={instructorRef} eyebrow="Personal Attention" title="YUJ brings depth beyond conventional fitness.">
         <div className="grid gap-6 lg:grid-cols-2">
           <motion.div
             whileHover={{ y: -4 }}
@@ -981,7 +986,11 @@ export function YujHome() {
             onClick={() => scrollToSection("contact")}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            className="fixed inset-x-4 bottom-4 z-40 flex items-center justify-center gap-2 rounded-full bg-yuj-purple px-5 py-4 font-bold text-white shadow-gold md:hidden border border-white/20"
+            className={`fixed inset-x-4 bottom-4 z-40 flex items-center justify-center gap-2 rounded-full bg-yuj-purple px-5 py-4 font-bold text-white md:hidden transition-all duration-500 ${
+              isOverDarkPurple
+                ? "border border-yuj-gold/90 shadow-[0_0_24px_rgba(240,190,75,0.45)] ring-1 ring-yuj-gold/40"
+                : "border border-white/20 shadow-gold"
+            }`}
           >
             Book Trial Class <ArrowRight className="h-5 w-5" />
           </motion.button>

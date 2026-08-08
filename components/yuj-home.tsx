@@ -158,8 +158,10 @@ export function YujHome() {
 
   const lenisRef = useRef<Lenis | null>(null);
   const heroRef = useRef<HTMLElement>(null);
+  const contactRef = useRef<HTMLElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   const isHeroInView = useInView(heroRef, { amount: 0.1 });
+  const isContactInView = useInView(contactRef, { amount: 0.05 });
   const isFooterInView = useInView(footerRef, { amount: 0.05 });
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
@@ -785,7 +787,7 @@ export function YujHome() {
       </Section>
 
       {/* CONTACT & BOOKING SECTION */}
-      <Section id="contact" eyebrow="Book A Class" title="Begin with a trial class at YUJ in Palarivattom, Kochi.">
+      <Section id="contact" sectionRef={contactRef} eyebrow="Book A Class" title="Begin with a trial class at YUJ in Palarivattom, Kochi.">
         <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="glass rounded-[32px] p-7 flex flex-col justify-between">
             <div>
@@ -968,7 +970,7 @@ export function YujHome() {
 
       {/* MOBILE & DESKTOP FLOATING CTAS */}
       <AnimatePresence>
-        {!isHeroInView && !isFooterInView && (
+        {!isHeroInView && !isContactInView && !isFooterInView && (
           <motion.button
             key="mobile-cta"
             initial={{ opacity: 0, y: 20 }}
@@ -1149,10 +1151,11 @@ function Navbar({
   );
 }
 
-function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string; title: string; children: React.ReactNode }) {
+function Section({ id, sectionRef, eyebrow, title, children }: { id: string; sectionRef?: React.RefObject<HTMLElement | null>; eyebrow: string; title: string; children: React.ReactNode }) {
   return (
     <motion.section
       id={id}
+      ref={sectionRef}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-40px" }}

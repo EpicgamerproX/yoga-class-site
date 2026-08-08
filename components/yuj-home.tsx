@@ -163,6 +163,7 @@ export function YujHome() {
   const isHeroInView = useInView(heroRef, { amount: 0.1 });
   const isContactInView = useInView(contactRef, { amount: 0.05 });
   const isFooterInView = useInView(footerRef, { amount: 0.05 });
+  const isMobileCtaVisible = !isHeroInView && !isContactInView && !isFooterInView;
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -970,7 +971,7 @@ export function YujHome() {
 
       {/* MOBILE & DESKTOP FLOATING CTAS */}
       <AnimatePresence>
-        {!isHeroInView && !isContactInView && !isFooterInView && (
+        {isMobileCtaVisible && (
           <motion.button
             key="mobile-cta"
             initial={{ opacity: 0, y: 20 }}
@@ -994,14 +995,16 @@ export function YujHome() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.3, ease: smoothEase }}
+            transition={{ duration: 0.4, ease: smoothEase }}
             whileHover={{ scale: 1.12 }}
             whileTap={{ scale: 0.92 }}
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className="fixed bottom-24 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-colors duration-300 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50 md:bottom-8 md:right-8"
+            className={`fixed right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-all duration-500 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50 md:bottom-8 md:right-8 ${
+              isMobileCtaVisible ? "bottom-24" : "bottom-4"
+            }`}
           >
             <MessageCircle className="h-7 w-7" />
           </motion.a>

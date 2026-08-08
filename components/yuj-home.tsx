@@ -169,6 +169,16 @@ export function YujHome() {
   const isFooterInView = useInView(footerRef, { amount: 0.05 });
   const isOverDarkPurple = isInstructorInView || isJourneyInView;
   const isMobileCtaVisible = !isHeroInView && !isContactInView && !isFooterInView;
+  
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile, { passive: true });
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -979,10 +989,10 @@ export function YujHome() {
         {isMobileCtaVisible && (
           <motion.button
             key="mobile-cta"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            transition={{ duration: 0.35, ease: smoothEase }}
+            initial={{ opacity: 0, y: 24, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 24, scale: 0.95 }}
+            transition={{ duration: 0.45, ease: smoothEase }}
             onClick={() => scrollToSection("contact")}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
@@ -1002,18 +1012,20 @@ export function YujHome() {
           <motion.a
             key="whatsapp-cta"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              y: isMobile && isMobileCtaVisible ? -72 : 0
+            }}
             exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.4, ease: smoothEase }}
+            transition={{ duration: 0.45, ease: smoothEase }}
             whileHover={{ scale: 1.12 }}
             whileTap={{ scale: 0.92 }}
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
             aria-label="Chat on WhatsApp"
-            className={`fixed right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-all duration-500 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50 md:bottom-8 md:right-8 ${
-              isMobileCtaVisible ? "bottom-24" : "bottom-4"
-            }`}
+            className="fixed bottom-4 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-500 text-white shadow-2xl transition-colors duration-300 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-400/50 md:bottom-8 md:right-8"
           >
             <MessageCircle className="h-7 w-7" />
           </motion.a>

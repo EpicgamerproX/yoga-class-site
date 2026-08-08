@@ -989,14 +989,14 @@ export function YujHome() {
         {isMobileCtaVisible && (
           <motion.button
             key="mobile-cta"
-            initial={{ opacity: 0, y: 24, scale: 0.95 }}
+            initial={{ opacity: 0, y: 32, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.95 }}
-            transition={{ duration: 0.45, ease: smoothEase }}
+            exit={{ opacity: 0, y: 32, scale: 0.96 }}
+            transition={{ duration: 0.4, ease: smoothEase }}
             onClick={() => scrollToSection("contact")}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            className={`fixed inset-x-4 bottom-4 z-40 flex items-center justify-center gap-2 rounded-full bg-yuj-purple px-5 py-4 font-bold text-white md:hidden transition-all duration-500 ${
+            className={`fixed inset-x-4 bottom-4 z-40 flex items-center justify-center gap-2 rounded-full bg-yuj-purple px-5 py-4 font-bold text-white md:hidden transition-[border-color,box-shadow] duration-500 ${
               isOverDarkPurple
                 ? "border border-yuj-gold/90 shadow-[0_0_24px_rgba(240,190,75,0.45)] ring-1 ring-yuj-gold/40"
                 : "border border-white/20 shadow-gold"

@@ -389,16 +389,16 @@ export function YujHome() {
             transition={{ duration: 1.4, ease: smoothEase }}
             className="flex flex-col items-center justify-center relative mx-auto w-full max-w-[420px]"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[12rem] rounded-b-[3rem] shadow-glow border-4 border-white/70 bg-gradient-to-b from-yuj-peach via-yuj-lavender to-yuj-purple">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[12rem] rounded-b-[3rem] shadow-glow border-4 border-white/70 bg-yuj-purple/10 transform-gpu">
               <Image
                 priority
                 src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80"
                 alt="Meditation silhouette at sunrise representing YUJ yoga practice"
                 fill
                 sizes="(max-width: 768px) 90vw, 420px"
-                className="object-cover mix-blend-luminosity opacity-85 transition-transform duration-1000 hover:scale-105"
+                className="object-cover opacity-95 transition-transform duration-1000 hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-yuj-purple/40 via-transparent to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-yuj-purple/50 via-yuj-purple/10 to-transparent pointer-events-none" />
             </div>
 
             <motion.div

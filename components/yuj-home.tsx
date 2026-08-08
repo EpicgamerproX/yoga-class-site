@@ -622,18 +622,18 @@ export function YujHome() {
             {/* Navigation buttons */}
             <button
               onClick={(e) => { e.stopPropagation(); prevGallery(); }}
-              className="absolute left-4 top-1/2 z-50 -translate-y-1/2 rounded-full bg-white/20 p-3 text-white transition hover:bg-white/30"
+              className="absolute left-2 sm:left-6 top-1/2 z-50 -translate-y-1/2 rounded-full bg-white/20 p-2.5 sm:p-3 text-white transition hover:bg-white/30 active:scale-95"
               aria-label="Previous image"
             >
-              <ChevronLeft className="h-7 w-7" />
+              <ChevronLeft className="h-6 w-6 sm:h-7 sm:w-7" />
             </button>
 
             <button
               onClick={(e) => { e.stopPropagation(); nextGallery(); }}
-              className="absolute right-4 top-1/2 z-50 -translate-y-1/2 rounded-full bg-white/20 p-3 text-white transition hover:bg-white/30"
+              className="absolute right-2 sm:right-6 top-1/2 z-50 -translate-y-1/2 rounded-full bg-white/20 p-2.5 sm:p-3 text-white transition hover:bg-white/30 active:scale-95"
               aria-label="Next image"
             >
-              <ChevronRight className="h-7 w-7" />
+              <ChevronRight className="h-6 w-6 sm:h-7 sm:w-7" />
             </button>
 
             <motion.div
@@ -670,7 +670,7 @@ export function YujHome() {
 
       {/* TESTIMONIALS SECTION */}
       <Section id="testimonials" eyebrow="Community" title="Students describe YUJ as attentive, peaceful, and transformative.">
-        <div className="grid gap-5 lg:grid-cols-3">
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((item, index) => (
             <motion.article
               key={item.name}
@@ -701,7 +701,7 @@ export function YujHome() {
 
       {/* EVENTS SECTION */}
       <Section id="events" eyebrow="Upcoming" title="Workshops and special classes that deepen the journey.">
-        <div className="grid gap-5 md:grid-cols-3">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {["International Yoga Day", "Breathwork Evening", "Weekend Meditation Retreat"].map((event, index) => (
             <motion.article
               key={event}
@@ -738,7 +738,7 @@ export function YujHome() {
               value={faqQuery}
               onChange={(event) => setFaqQuery(event.target.value)}
               placeholder="Search questions..."
-              className="w-full bg-transparent outline-none text-yuj-ink placeholder:text-yuj-ink/40"
+              className="w-full bg-transparent outline-none text-base sm:text-sm text-yuj-ink placeholder:text-yuj-ink/40"
             />
           </div>
 
@@ -1220,7 +1220,7 @@ function Field({ id, label, value, onChange, type = "text", required = false }: 
         type={type}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full rounded-2xl border border-white/20 bg-white/12 px-4 py-3 text-white outline-none focus:ring-4 focus:ring-yuj-gold/40 transition-all duration-300"
+        className="mt-2 w-full rounded-2xl border border-white/20 bg-white/12 px-4 py-3 text-base sm:text-sm text-white outline-none focus:ring-4 focus:ring-yuj-gold/40 transition-all duration-300"
       />
     </label>
   );
@@ -1233,7 +1233,7 @@ function Select({ label, value, onChange, options }: { label: string; value: str
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-2 w-full rounded-2xl border border-white/20 bg-white/12 px-4 py-3 text-white outline-none focus:ring-4 focus:ring-yuj-gold/40 transition-all duration-300"
+        className="mt-2 w-full rounded-2xl border border-white/20 bg-white/12 px-4 py-3 text-base sm:text-sm text-white outline-none focus:ring-4 focus:ring-yuj-gold/40 transition-all duration-300"
       >
         {options.map((option) => (
           <option key={option} value={option} className="text-yuj-ink">

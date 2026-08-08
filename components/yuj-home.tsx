@@ -332,7 +332,7 @@ export function YujHome() {
       />
 
       {/* HERO SECTION */}
-      <section id="home" ref={heroRef} className="aurora relative flex min-h-screen items-center overflow-hidden pt-16 sm:pt-24">
+      <section id="home" ref={heroRef} className="aurora relative flex min-h-screen items-center overflow-hidden pt-14 sm:pt-16 lg:pt-16">
         <motion.div style={{ y: heroY }} className="absolute inset-0 pointer-events-none">
           <div className="absolute left-1/2 top-[16%] h-80 w-80 -translate-x-1/2 rounded-full bg-yuj-peach/60 blur-3xl breath" />
           <div className="absolute bottom-0 left-0 right-0 h-[42%] bg-gradient-to-t from-yuj-purple/20 to-transparent" />
@@ -349,7 +349,7 @@ export function YujHome() {
           />
         ))}
 
-        <div className="section-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-8 py-4 sm:py-16 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="section-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-8 py-4 sm:py-6 lg:py-8 lg:grid-cols-[1.08fr_0.92fr]">
           <motion.div initial="hidden" animate={loaded ? "visible" : "hidden"} variants={fadeUp}>
             <motion.p
               whileHover={{ scale: 1.03 }}

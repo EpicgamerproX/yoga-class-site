@@ -1086,30 +1086,31 @@ function Navbar({
           Book Class <ArrowRight className="h-4 w-4" />
         </motion.button>
 
-        <button
+        <motion.button
+          whileTap={{ scale: 0.94 }}
           onClick={() => setMenuOpen(!menuOpen)}
-          className="rounded-full bg-yuj-purple p-3 text-white lg:hidden"
+          className="flex items-center justify-center rounded-full bg-yuj-lilac/80 px-3.5 py-2.5 text-yuj-purple border border-yuj-purple/15 transition-all duration-300 hover:bg-yuj-purple hover:text-white lg:hidden"
           aria-label="Toggle navigation"
         >
           {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        </motion.button>
       </nav>
 
       <AnimatePresence>
         {menuOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -16, scale: 0.96 }}
+            initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -16, scale: 0.96 }}
-            transition={{ duration: 0.4, ease: smoothEase }}
-            className="mx-auto mt-3 grid max-w-7xl gap-2 rounded-[28px] bg-white/95 p-4 shadow-2xl backdrop-blur-xl border border-white/80 lg:hidden"
+            exit={{ opacity: 0, y: -10, scale: 0.98 }}
+            transition={{ duration: 0.35, ease: smoothEase }}
+            className="mx-auto mt-2.5 grid max-w-7xl gap-1.5 rounded-3xl bg-white/95 p-3.5 shadow-2xl backdrop-blur-2xl border border-white/80 lg:hidden"
           >
             {navItems.map(([label, id]) => (
               <button
                 key={id}
                 onClick={() => onNavClick(id)}
-                className={`rounded-2xl px-4 py-3 text-left font-bold transition-colors ${
-                  activeSection === id ? "bg-yuj-lilac text-yuj-purple" : "text-yuj-purple hover:bg-yuj-lilac/40"
+                className={`rounded-2xl px-4 py-3 text-left font-bold transition-all duration-300 ${
+                  activeSection === id ? "bg-yuj-purple text-white shadow-sm" : "text-yuj-purple hover:bg-yuj-lilac/50"
                 }`}
               >
                 {label}
@@ -1117,7 +1118,7 @@ function Navbar({
             ))}
             <button
               onClick={() => onNavClick("contact")}
-              className="mt-2 w-full rounded-2xl bg-yuj-purple py-3.5 font-bold text-white shadow-gold text-center flex items-center justify-center gap-2"
+              className="mt-2 w-full rounded-2xl bg-yuj-gold px-5 py-3.5 font-bold text-yuj-ink shadow-gold text-center flex items-center justify-center gap-2"
             >
               Book Class <ArrowRight className="h-4 w-4" />
             </button>

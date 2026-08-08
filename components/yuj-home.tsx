@@ -32,14 +32,14 @@ import {
 } from "lucide-react";
 import { faqs, navItems, programs, siteConfig } from "@/config/site";
 
-const smoothEase = [0.16, 1, 0.3, 1] as const;
+const smoothEase = [0.22, 1, 0.36, 1] as const;
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 22 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1.1, ease: smoothEase }
+    transition: { duration: 1.5, ease: smoothEase }
   }
 };
 
@@ -442,8 +442,8 @@ export function YujHome() {
               variants={fadeUp}
               initial="hidden"
               whileInView="visible"
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8, delay: index * 0.08, ease: smoothEase }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 1.5, delay: index * 0.12, ease: smoothEase }}
               whileHover={{ y: -6, scale: 1.01 }}
               className="glass group rounded-[28px] p-6 flex flex-col justify-between cursor-pointer"
               onClick={() => selectProgramAndBook(program.title)}
@@ -481,11 +481,15 @@ export function YujHome() {
       {/* BENEFITS SECTION */}
       <Section id="benefits" eyebrow="Build Trust" title="A practice that supports body, breath, rest, and clarity.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {benefits.map(([title, text, Icon]) => (
+          {benefits.map(([title, text, Icon], index) => (
             <motion.article
               key={title}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 1.5, delay: index * 0.1, ease: smoothEase }}
               whileHover={{ y: -6, scale: 1.02 }}
-              transition={{ duration: 0.4, ease: smoothEase }}
               className="group rounded-[28px] bg-white/72 p-6 shadow-glow border border-white/60 transition-all duration-500 hover:bg-yuj-purple hover:border-yuj-purple hover:shadow-2xl cursor-pointer"
             >
               <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-yuj-lilac text-yuj-purple transition-all duration-500 group-hover:bg-white/20 group-hover:text-yuj-gold group-hover:scale-110">
@@ -571,8 +575,12 @@ export function YujHome() {
           {gallery.map((image, index) => (
             <motion.div
               key={image.src}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 1.5, delay: index * 0.1, ease: smoothEase }}
               whileHover={{ y: -4, scale: 1.02 }}
-              transition={{ duration: 0.5, ease: smoothEase }}
               className="mb-5 block w-full aspect-[4/3] overflow-hidden rounded-[28px] bg-white shadow-glow group cursor-pointer relative"
               onClick={() => openGallery(index)}
             >
@@ -663,11 +671,15 @@ export function YujHome() {
       {/* TESTIMONIALS SECTION */}
       <Section id="testimonials" eyebrow="Community" title="Students describe YUJ as attentive, peaceful, and transformative.">
         <div className="grid gap-5 lg:grid-cols-3">
-          {testimonials.map((item) => (
+          {testimonials.map((item, index) => (
             <motion.article
               key={item.name}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 1.5, delay: index * 0.12, ease: smoothEase }}
               whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ duration: 0.4, ease: smoothEase }}
               className="glass rounded-[28px] p-7 flex flex-col justify-between"
             >
               <div>
@@ -693,8 +705,12 @@ export function YujHome() {
           {["International Yoga Day", "Breathwork Evening", "Weekend Meditation Retreat"].map((event, index) => (
             <motion.article
               key={event}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 1.5, delay: index * 0.12, ease: smoothEase }}
               whileHover={{ y: -6, scale: 1.01 }}
-              transition={{ duration: 0.4, ease: smoothEase }}
               className="rounded-[28px] bg-white/76 p-7 shadow-glow border border-white/60 flex flex-col justify-between"
             >
               <div>
@@ -1135,7 +1151,7 @@ function Section({ id, eyebrow, title, children }: { id: string; eyebrow: string
       id={id}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-100px" }}
+      viewport={{ once: true, margin: "-40px" }}
       className="relative py-20 sm:py-28"
     >
       <div className="section-shell">

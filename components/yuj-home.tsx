@@ -924,7 +924,7 @@ export function YujHome() {
         )}
       </AnimatePresence>
 
-      <footer ref={footerRef} className="bg-yuj-ink px-4 pb-28 pt-12 text-white md:pb-10">
+      <footer ref={footerRef} className="bg-yuj-ink px-4 pb-8 pt-10 text-white sm:pb-10 sm:pt-12">
         <div className="section-shell flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
           <div>
             <p className="font-heading text-4xl font-bold">YUJ</p>

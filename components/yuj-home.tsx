@@ -330,7 +330,7 @@ export function YujHome() {
       />
 
       {/* HERO SECTION */}
-      <section id="home" ref={heroRef} className="aurora relative flex min-h-screen items-center overflow-hidden pt-24">
+      <section id="home" ref={heroRef} className="aurora relative flex min-h-screen items-center overflow-hidden pt-16 sm:pt-24">
         <motion.div style={{ y: heroY }} className="absolute inset-0 pointer-events-none">
           <div className="absolute left-1/2 top-[16%] h-80 w-80 -translate-x-1/2 rounded-full bg-yuj-peach/60 blur-3xl breath" />
           <div className="absolute bottom-0 left-0 right-0 h-[42%] bg-gradient-to-t from-yuj-purple/20 to-transparent" />
@@ -347,7 +347,7 @@ export function YujHome() {
           />
         ))}
 
-        <div className="section-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-12 py-16 lg:grid-cols-[1.08fr_0.92fr]">
+        <div className="section-shell relative z-10 grid min-h-[calc(100vh-6rem)] items-center gap-8 py-4 sm:py-16 lg:grid-cols-[1.08fr_0.92fr]">
           <motion.div initial="hidden" animate={loaded ? "visible" : "hidden"} variants={fadeUp}>
             <motion.p
               whileHover={{ scale: 1.03 }}
@@ -388,9 +388,9 @@ export function YujHome() {
             initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={loaded ? { opacity: 1, scale: 1, y: 0 } : {}}
             transition={{ duration: 1.4, ease: smoothEase }}
-            className="flex flex-col items-center justify-center relative mx-auto w-full max-w-[420px]"
+            className="flex flex-col items-center justify-center relative mx-auto w-full max-w-[290px] sm:max-w-[360px] lg:max-w-[420px]"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[12rem] rounded-b-[3rem] shadow-glow border-4 border-white/70 bg-yuj-purple/10 transform-gpu">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-t-[8rem] rounded-b-[2rem] sm:rounded-t-[12rem] sm:rounded-b-[3rem] shadow-glow border-4 border-white/70 bg-yuj-purple/10 transform-gpu">
               <Image
                 priority
                 src="https://images.unsplash.com/photo-1599447421416-3414500d18a5?auto=format&fit=crop&q=80"
@@ -405,7 +405,7 @@ export function YujHome() {
             <motion.div
               whileHover={{ y: -3 }}
               transition={{ duration: 0.4, ease: smoothEase }}
-              className="-mt-8 z-20 w-[86%] max-w-[340px] rounded-3xl bg-white/90 px-6 py-4 text-center shadow-2xl backdrop-blur-xl border border-white/80"
+              className="-mt-6 sm:-mt-8 z-20 w-[86%] max-w-[260px] sm:max-w-[340px] rounded-3xl bg-white/90 px-6 py-4 text-center shadow-2xl backdrop-blur-xl border border-white/80"
             >
               <p className="font-heading text-3xl font-bold text-yuj-purple leading-tight">YUJ</p>
               <p className="text-xs font-bold uppercase tracking-[0.32em] text-yuj-plum mt-0.5">School of Yoga</p>
